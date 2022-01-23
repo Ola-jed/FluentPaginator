@@ -1,0 +1,31 @@
+name: Publish to NuGet
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+      - name: Create NuGet Package
+        run: dotnet pack -c Release /p:Version=${{ github.event.release.tag_name }} /p:PackageReleaseNotes="See https://github.com/Ola-jed/FluentPaginator/releases/tag/${{ github.event.release.tag_name }}"
+        working-directory: ./src
+      - name: Archive NuGet Package
+        uses: actions/upload-artifact@v1
+        with:
+          name: FluentPaginator.Lib
+          path: ./FluentPaginator.Lib/bin/Release/FluentPaginator.Lib.${{ github.event.release.tag_name }}.nupkg
+      - name: Archive NuGet Package
+        uses: actions/upload-artifact@v1
+        with:
+          name: FluentPaginator.Lib
+          path: ./FluentPaginator.Lib/bin/Release/FluentPaginator.Lib.${{ github.event.release.tag_name }}.nupkg
+      - name: Publish Nuget Package
+        run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.nuget_api_key }} --source https://api.nuget.org/v3/index.json --no-symbols true

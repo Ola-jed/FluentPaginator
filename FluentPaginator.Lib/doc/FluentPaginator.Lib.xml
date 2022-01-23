@@ -1,0 +1,271 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FluentPaginator.Lib</name>
+    </assembly>
+    <members>
+        <member name="T:FluentPaginator.Lib.Core.CursorPaginator`1">
+            <summary>
+            Cursor pagination class
+            </summary>
+            <typeparam name="T">The data type to paginate</typeparam>
+        </member>
+        <member name="M:FluentPaginator.Lib.Core.CursorPaginator`1.#ctor(System.Linq.IQueryable{`0})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="source">The IQueryable use for pagination as source</param>
+        </member>
+        <member name="M:FluentPaginator.Lib.Core.CursorPaginator`1.Paginate``1(FluentPaginator.Lib.Parameter.PaginationParameter,System.Func{`0,``0})">
+            <summary>
+            Paginate a source of data
+            </summary>
+            <param name="paginationParameter">The parameter for page size and the current page</param>
+            <param name="orderFunc">Function for how the elements will be ordered</param>
+            <typeparam name="TKey">The type used for ordering</typeparam>
+            <returns>A page containing the data</returns>
+            <exception cref="T:System.ArgumentException">If the orderFunc given is not null</exception>
+        </member>
+        <member name="T:FluentPaginator.Lib.Core.Interfaces.IPaginator`1">
+            <summary>
+            Default interface for the Paginator and the CursorPaginator
+            </summary>
+            <typeparam name="T">The type that will be in the pagination data</typeparam>
+        </member>
+        <member name="M:FluentPaginator.Lib.Core.Interfaces.IPaginator`1.Paginate``1(FluentPaginator.Lib.Parameter.PaginationParameter,System.Func{`0,``0})">
+            <summary>
+            Paginate a source of data
+            </summary>
+            <param name="paginationParameter">The parameter for page size and the current page</param>
+            <param name="orderFunc">Function for how the elements will be ordered</param>
+            <typeparam name="TKey">The type used for ordering</typeparam>
+            <returns>A page containing the data</returns>
+        </member>
+        <member name="T:FluentPaginator.Lib.Core.Interfaces.IUrlPaginator`1">
+            <summary>
+            The default interface for paginating data with urls
+            </summary>
+            <typeparam name="T">The type that will be in the pagination data</typeparam>
+        </member>
+        <member name="M:FluentPaginator.Lib.Core.Interfaces.IUrlPaginator`1.Paginate``1(FluentPaginator.Lib.Parameter.UrlPaginationParameter,System.Func{`0,``0})">
+            <summary>
+            Paginate a source of data with the urls
+            </summary>
+            <param name="paginationParameter">The parameter for page size and the current page and the base url</param>
+            <param name="orderFunc">Function for how the elements will be ordered</param>
+            <typeparam name="TKey">The type used for ordering</typeparam>
+            <returns>A page containing the data</returns>
+        </member>
+        <member name="T:FluentPaginator.Lib.Core.Paginator`1">
+            <summary>
+            The paginator class
+            </summary>
+            <typeparam name="T">The type of data in a page</typeparam>
+        </member>
+        <member name="M:FluentPaginator.Lib.Core.Paginator`1.#ctor(System.Linq.IQueryable{`0})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="source">The IQueryable we will use for pagination</param>
+        </member>
+        <member name="M:FluentPaginator.Lib.Core.Paginator`1.Paginate``1(FluentPaginator.Lib.Parameter.PaginationParameter,System.Func{`0,``0})">
+            <summary>
+            Paginate a source of data
+            </summary>
+            <param name="paginationParameter">The parameter for page size and the current page</param>
+            <param name="orderFunc">Function for how the elements will be ordered</param>
+            <typeparam name="TKey">The type used for ordering</typeparam>
+            <returns>A page containing the data</returns>
+        </member>
+        <member name="T:FluentPaginator.Lib.Core.UrlPaginator`1">
+            <summary>
+            The Url Paginator for web apps
+            </summary>
+            <typeparam name="T">The type that will be in the pagination data</typeparam>
+        </member>
+        <member name="M:FluentPaginator.Lib.Core.UrlPaginator`1.#ctor(System.Linq.IQueryable{`0})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="source">The IQueryable used as source data</param>
+        </member>
+        <member name="M:FluentPaginator.Lib.Core.UrlPaginator`1.Paginate``1(FluentPaginator.Lib.Parameter.UrlPaginationParameter,System.Func{`0,``0})">
+            <summary>
+            Paginate a source of data with the urls
+            </summary>
+            <param name="paginationParameter">The parameter for page size and the current page and the base url</param>
+            <param name="orderFunc">Function for how the elements will be ordered</param>
+            <typeparam name="TKey">The type used for ordering</typeparam>
+            <returns>A page containing the data</returns>
+        </member>
+        <member name="T:FluentPaginator.Lib.Extensions.EnumerableExtensions">
+            <summary>
+            Extensions for IEnumerable
+            If you are using EF Core, you should use the <see cref="T:FluentPaginator.Lib.Extensions.QueryableExtensions"/> instead
+            </summary>
+        </member>
+        <member name="M:FluentPaginator.Lib.Extensions.EnumerableExtensions.Paginate``2(System.Collections.Generic.IEnumerable{``0},FluentPaginator.Lib.Parameter.PaginationParameter,System.Func{``0,``1})">
+            <summary>
+            Paginate an IEnumerable
+            </summary>
+            <param name="self">The IQueryable to paginate</param>
+            <param name="paginationParameter">The pagination param</param>
+            <param name="orderFunc">Function for ordering items</param>
+            <typeparam name="T">The type of the page data</typeparam>
+            <typeparam name="TKey">The type of the parameter for ordering</typeparam>
+            <returns>The paginated result</returns>
+        </member>
+        <member name="M:FluentPaginator.Lib.Extensions.EnumerableExtensions.UrlPaginate``2(System.Collections.Generic.IEnumerable{``0},FluentPaginator.Lib.Parameter.UrlPaginationParameter,System.Func{``0,``1})">
+            <summary>
+            Paginate an IEnumerable with urls
+            </summary>
+            <param name="self">The IQueryable to paginate</param>
+            <param name="paginationParameter">The url pagination param</param>
+            <param name="orderFunc">Function for ordering items</param>
+            <typeparam name="T">The type of the page data</typeparam>
+            <typeparam name="TKey">The type of the parameter for ordering</typeparam>
+            <returns>The paginated result</returns>
+        </member>
+        <member name="M:FluentPaginator.Lib.Extensions.EnumerableExtensions.CursorPaginate``1(System.Collections.Generic.IEnumerable{``0},FluentPaginator.Lib.Parameter.PaginationParameter)">
+            <summary>
+            Paginate an IEnumerable using cursor pagination
+            </summary>
+            <param name="self">The IQueryable to paginate</param>
+            <param name="paginationParameter">The pagination param</param>
+            <typeparam name="T">The type of the page data</typeparam>
+            <returns>The paginated result</returns>
+        </member>
+        <member name="T:FluentPaginator.Lib.Extensions.QueryableExtensions">
+            <summary>
+            Extensions for IQueryable
+            </summary>
+        </member>
+        <member name="M:FluentPaginator.Lib.Extensions.QueryableExtensions.Paginate``2(System.Linq.IQueryable{``0},FluentPaginator.Lib.Parameter.PaginationParameter,System.Func{``0,``1})">
+            <summary>
+            Paginate an IQueryable
+            </summary>
+            <param name="self">The IQueryable to paginate</param>
+            <param name="paginationParameter">The pagination param</param>
+            <param name="orderFunc">Function for ordering items</param>
+            <typeparam name="T">The type of the page data</typeparam>
+            <typeparam name="TKey">The type of the parameter for ordering</typeparam>
+            <returns>The paginated result</returns>
+        </member>
+        <member name="M:FluentPaginator.Lib.Extensions.QueryableExtensions.UrlPaginate``2(System.Linq.IQueryable{``0},FluentPaginator.Lib.Parameter.UrlPaginationParameter,System.Func{``0,``1})">
+            <summary>
+            Paginate an IQueryable with urls
+            </summary>
+            <param name="self">The IQueryable to paginate</param>
+            <param name="paginationParameter">The url pagination param</param>
+            <param name="orderFunc">Function for ordering items</param>
+            <typeparam name="T">The type of the page data</typeparam>
+            <typeparam name="TKey">The type of the parameter for ordering</typeparam>
+            <returns>The paginated result</returns>
+        </member>
+        <member name="M:FluentPaginator.Lib.Extensions.QueryableExtensions.CursorPaginate``1(System.Linq.IQueryable{``0},FluentPaginator.Lib.Parameter.PaginationParameter)">
+            <summary>
+            Paginate an IQueryable using cursor pagination
+            </summary>
+            <param name="self">The IQueryable to paginate</param>
+            <param name="paginationParameter">The pagination param</param>
+            <typeparam name="T">The type of the page data</typeparam>
+            <returns>The paginated result</returns>
+        </member>
+        <member name="T:FluentPaginator.Lib.Page.CursorItem`1">
+            <summary>
+            Item contained in a cursor for the cursor paginator.
+            </summary>
+            <param name="Id">Id of the element in the collection for ordering</param>
+            <param name="Item"></param>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:FluentPaginator.Lib.Page.CursorItem`1.#ctor(System.Int32,`0)">
+            <summary>
+            Item contained in a cursor for the cursor paginator.
+            </summary>
+            <param name="Id">Id of the element in the collection for ordering</param>
+            <param name="Item"></param>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:FluentPaginator.Lib.Page.Page`1">
+            <summary>
+            A page of paginated data
+            </summary>
+            <param name="Items">The collection of elements</param>
+            <param name="PageNumber">Number of the current page</param>
+            <param name="PageSize">Number of elements the page is supposed to contain</param>
+            <param name="HasNext">If a next page exists</param>
+            <typeparam name="T">The Type of the data contained</typeparam>
+        </member>
+        <member name="M:FluentPaginator.Lib.Page.Page`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            A page of paginated data
+            </summary>
+            <param name="Items">The collection of elements</param>
+            <param name="PageNumber">Number of the current page</param>
+            <param name="PageSize">Number of elements the page is supposed to contain</param>
+            <param name="HasNext">If a next page exists</param>
+            <typeparam name="T">The Type of the data contained</typeparam>
+        </member>
+        <member name="T:FluentPaginator.Lib.Page.UrlPage`1">
+            <summary>
+            A page of paginated data
+            </summary>
+            <param name="Items">The collection of elements</param>
+            <param name="PageNumber">Number of the current page</param>
+            <param name="PageSize">Number of elements the page is supposed to contain</param>
+            <param name="HasNext">If a next page exists</param>
+            <param name="BaseUrl">The url for querying this data</param>
+            <param name="PreviousUrl">The url of the previous page</param>
+            <param name="NextUrl">The url of the next page</param>
+            <typeparam name="T">The Type of the data contained</typeparam>
+        </member>
+        <member name="M:FluentPaginator.Lib.Page.UrlPage`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int32,System.Int32,System.Boolean,System.String,System.String,System.String)">
+            <summary>
+            A page of paginated data
+            </summary>
+            <param name="Items">The collection of elements</param>
+            <param name="PageNumber">Number of the current page</param>
+            <param name="PageSize">Number of elements the page is supposed to contain</param>
+            <param name="HasNext">If a next page exists</param>
+            <param name="BaseUrl">The url for querying this data</param>
+            <param name="PreviousUrl">The url of the previous page</param>
+            <param name="NextUrl">The url of the next page</param>
+            <typeparam name="T">The Type of the data contained</typeparam>
+        </member>
+        <member name="T:FluentPaginator.Lib.Parameter.PaginationParameter">
+            <summary>
+            The parameter for the url pagination.
+            </summary>
+            <param name="PageSize">The size of one page of data</param>
+            <param name="PageNumber">The number of the current page</param>
+        </member>
+        <member name="M:FluentPaginator.Lib.Parameter.PaginationParameter.#ctor(System.Int32,System.Int32)">
+            <summary>
+            The parameter for the url pagination.
+            </summary>
+            <param name="PageSize">The size of one page of data</param>
+            <param name="PageNumber">The number of the current page</param>
+        </member>
+        <member name="T:FluentPaginator.Lib.Parameter.UrlPaginationParameter">
+            <summary>
+            The parameter for the url pagination.
+            </summary>
+            <param name="PageSize">The size of one page of data</param>
+            <param name="PageNumber">The number of the current page</param>
+            <param name="BaseUrl">The base url of the app</param>
+            <param name="PageNumberName">The name of the url query param for the page number</param>
+            <param name="PageSizeName">The name of the url query param for the page size</param>
+        </member>
+        <member name="M:FluentPaginator.Lib.Parameter.UrlPaginationParameter.#ctor(System.Int32,System.Int32,System.String,System.String,System.String)">
+            <summary>
+            The parameter for the url pagination.
+            </summary>
+            <param name="PageSize">The size of one page of data</param>
+            <param name="PageNumber">The number of the current page</param>
+            <param name="BaseUrl">The base url of the app</param>
+            <param name="PageNumberName">The name of the url query param for the page number</param>
+            <param name="PageSizeName">The name of the url query param for the page size</param>
+        </member>
+    </members>
+</doc>
