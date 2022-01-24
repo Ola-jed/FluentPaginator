@@ -16,7 +16,7 @@ jobs:
           dotnet-version: 6.0.x
       - name: Create NuGet Package
         run: dotnet pack -c Release /p:Version=${{ github.event.release.tag_name }} /p:PackageReleaseNotes="See https://github.com/Ola-jed/FluentPaginator/releases/tag/${{ github.event.release.tag_name }}"
-        working-directory: ./src
+        working-directory: ./
       - name: Archive NuGet Package
         uses: actions/upload-artifact@v1
         with:
