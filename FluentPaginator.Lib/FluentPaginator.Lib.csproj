@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Authors>Ola-Jed</Authors>
+        <Nullable>enable</Nullable>
+        <Title>A Fluent Paginator for .net</Title>
+        <Description>A Package for IQueryable/IEnumerable Pagination</Description>
+        <PackageProjectUrl>https://github.com/Ola-jed/FluentPaginator</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/Ola-jed/FluentPaginator/blob/master/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/Ola-jed/FluentPaginator</RepositoryUrl>
+        <AssemblyVersion>1.0</AssemblyVersion>
+        <version>1.0</version>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+</Project>
