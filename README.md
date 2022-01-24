@@ -13,9 +13,7 @@ using FluentPaginator.Lib.Parameter;
 
 public class Model
 {
-    [Key]
-    public int Id { get; set; }
-
+    [Key] public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
 }
 
@@ -31,8 +29,6 @@ public class Context : DbContext
         optionsBuilder.UseInMemoryDatabase("DB");
     }
 
-    public DbSet<Model> Models { get; set; } = null!;
-
     private void Seed()
     {
         var items = new List<Model>();
@@ -43,13 +39,15 @@ public class Context : DbContext
         Models.AddRange(items);
         SaveChanges();
     }
+
+    public DbSet<Model> Models { get; set; } = null!;
 }
 
 public static class Program
 {
     public static void Main()
     {
-        var context = new Context(new DbContextOptionsBuilder<Context>().Options);
+        using var context = new Context(new DbContextOptions<Context>());
         var data = context.Models.Paginate(new PaginationParameter(5, 4), x => x.Id);
         Console.WriteLine($"Page {data.PageNumber}");
         Console.WriteLine($"Items per page : {data.PageSize}");

@@ -9,7 +9,6 @@ public class Model
 {
     [Key]
     public int Id { get; set; }
-
     public string Name { get; set; } = string.Empty;
 }
 
@@ -24,9 +23,7 @@ public class Context : DbContext
     {
         optionsBuilder.UseInMemoryDatabase("db");
     }
-
-    public DbSet<Model> Models { get; set; } = null!;
-
+    
     private void Seed()
     {
         var items = new List<Model>();
@@ -37,13 +34,14 @@ public class Context : DbContext
         Models.AddRange(items);
         SaveChanges();
     }
+    public DbSet<Model> Models { get; set; } = null!;
 }
 
 public static class Program
 {
     public static void Main()
     {
-        var context = new Context(new DbContextOptionsBuilder<Context>().EnableSensitiveDataLogging().Options);
+        using var context = new Context(new DbContextOptionsBuilder<Context>().EnableSensitiveDataLogging().Options);
         var data = context.Models.Paginate(new PaginationParameter(5, 4), x => x.Id);
         Console.WriteLine($"Page {data.PageNumber}");
         Console.WriteLine($"Items per page : {data.PageSize}");
