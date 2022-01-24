@@ -9,6 +9,8 @@
         <PackageProjectUrl>https://github.com/Ola-jed/FluentPaginator</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/Ola-jed/FluentPaginator/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/Ola-jed/FluentPaginator</RepositoryUrl>
+        <AssemblyVersion>1.0</AssemblyVersion>
+        <Version>1.0</Version>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

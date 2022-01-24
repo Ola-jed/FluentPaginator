@@ -24,4 +24,3 @@ jobs:
           PROJECT_FILE_PATH: FluentPaginator.Lib/FluentPaginator.Lib.csproj
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
           VERSION_REGEX: '^\s*<PackageVersion>(.*)<\/PackageVersion>\s*$'
-          TAG_FORMAT: '*'
