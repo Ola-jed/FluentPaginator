@@ -51,21 +51,23 @@ public class UrlPaginator<T> : IUrlPaginator<T>
 
         var hasNext = _source.Count() - paginationParameter.PageSize * paginationParameter.PageNumber > 0;
         var previousPageBuilder = new StringBuilder(paginationParameter.BaseUrl);
+        var pageNumberName = paginationParameter.PageNumberName ?? nameof(paginationParameter.PageNumber);
+        var pageSizeName = paginationParameter.PageSizeName ?? nameof(paginationParameter.PageSize);
         previousPageBuilder.Append('?')
-            .Append(nameof(paginationParameter.PageNumber))
+            .Append(pageNumberName)
             .Append('=')
             .Append(paginationParameter.PageNumber - 1)
             .Append('&')
-            .Append(nameof(paginationParameter.PageSize))
+            .Append(pageSizeName)
             .Append('=')
             .Append(paginationParameter.PageSize);
         var nextPageBuilder = new StringBuilder(paginationParameter.BaseUrl);
         nextPageBuilder.Append('?')
-            .Append(nameof(paginationParameter.PageNumber))
+            .Append(pageNumberName)
             .Append('=')
             .Append(paginationParameter.PageNumber + 1)
             .Append('&')
-            .Append(nameof(paginationParameter.PageSize))
+            .Append(pageSizeName)
             .Append('=')
             .Append(paginationParameter.PageSize);
         return new UrlPage<T>(items, paginationParameter.PageNumber, paginationParameter.PageSize, hasNext,

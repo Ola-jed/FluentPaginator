@@ -23,4 +23,4 @@ jobs:
         with:
           PROJECT_FILE_PATH: FluentPaginator.Lib/FluentPaginator.Lib.csproj
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-          VERSION_STATIC: 1.1
+          VERSION_STATIC: 1.2
