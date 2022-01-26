@@ -71,6 +71,6 @@ public class UrlPaginator<T> : IUrlPaginator<T>
             .Append('=')
             .Append(paginationParameter.PageSize);
         return new UrlPage<T>(items, paginationParameter.PageNumber, paginationParameter.PageSize, hasNext,
-            paginationParameter.BaseUrl, nextPageBuilder.ToString(), previousPageBuilder.ToString());
+            paginationParameter.BaseUrl, previousPageBuilder.ToString(), nextPageBuilder.ToString());
     }
 }
