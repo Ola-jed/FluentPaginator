@@ -3,12 +3,15 @@
 FluentPaginator is an easy to use library to help pagination with `IQueryable` and `IEnumerable`
 
 ## Download
+
 [NuGet Gallery](https://www.nuget.org/packages/FluentPaginator.Lib/)
+
 ```shell
 dotnet add package FluentPaginator.Lib --version 1.0.0
 ```
 
 ## Example
+
 ```c#
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

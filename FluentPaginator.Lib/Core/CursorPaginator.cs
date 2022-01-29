@@ -47,7 +47,7 @@ public class CursorPaginator<T> : IPaginator<T>
             .Select(cursorItem => cursorItem.Item)
             .ToList();
         var hasNext = _cursorItems.Count() - pageSize * pageNumber > 0;
-        return new Page<T>(items, pageNumber, pageSize, hasNext);
+        return new Page<T>(items, pageNumber, pageSize, hasNext,_cursorItems.Count());
     }
 
     private static int IncrementId(ref int id)

@@ -32,6 +32,7 @@ public class Paginator<T> : IPaginator<T>
     /// <returns>A page containing the data</returns>
     public Page<T> Paginate<TKey>(PaginationParameter paginationParameter, Func<T, TKey>? orderFunc = null)
     {
+        var total = _source.Count();
         if (orderFunc == null)
         {
             var (pageSize, pageNumber) = paginationParameter;
@@ -40,7 +41,7 @@ public class Paginator<T> : IPaginator<T>
                 .Take(pageSize)
                 .ToList();
             var hasNext = _source.Count() - pageSize * pageNumber > 0;
-            return new Page<T>(items, pageNumber, pageSize, hasNext);
+            return new Page<T>(items, pageNumber, pageSize, hasNext,total);
         }
         else
         {
@@ -50,7 +51,7 @@ public class Paginator<T> : IPaginator<T>
                 .Take(pageSize)
                 .ToList();
             var hasNext = _source.Count() - pageSize * pageNumber > 0;
-            return new Page<T>(items, pageNumber, pageSize, hasNext);
+            return new Page<T>(items, pageNumber, pageSize, hasNext, total);
         }
     }
 }
