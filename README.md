@@ -73,7 +73,3 @@ public static class Program
     }
 }
 ```
-
-## Note
-
-The benchmarks results are available in the folder .benchmark_results
