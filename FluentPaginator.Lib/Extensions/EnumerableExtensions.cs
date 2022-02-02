@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentPaginator.Lib.Core;
+using FluentPaginator.Lib.Core.Interfaces;
 using FluentPaginator.Lib.Page;
 using FluentPaginator.Lib.Parameter;
 
@@ -41,17 +42,5 @@ public static class EnumerableExtensions
         Func<T, TKey>? orderFunc = null)
     {
         return new UrlPaginator<T>(self.AsQueryable()).Paginate(paginationParameter, orderFunc);
-    }
-
-    /// <summary>
-    /// Paginate an IEnumerable using cursor pagination
-    /// </summary>
-    /// <param name="self">The IQueryable to paginate</param>
-    /// <param name="paginationParameter">The pagination param</param>
-    /// <typeparam name="T">The type of the page data</typeparam>
-    /// <returns>The paginated result</returns>
-    public static Page<T> CursorPaginate<T>(this IEnumerable<T> self, PaginationParameter paginationParameter)
-    {
-        return new CursorPaginator<T>(self.AsQueryable()).Paginate<T>(paginationParameter);
     }
 }

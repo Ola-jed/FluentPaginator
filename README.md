@@ -7,21 +7,23 @@ FluentPaginator is an easy to use library to help pagination with `IQueryable` a
 [NuGet Gallery](https://www.nuget.org/packages/FluentPaginator.Lib/)
 
 ```shell
-dotnet add package FluentPaginator.Lib --version 1.0.0
+dotnet add package FluentPaginator.Lib
 ```
 
-## Example
+## Basic Usage
 
 ```c#
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 using FluentPaginator.Lib.Extensions;
 using FluentPaginator.Lib.Parameter;
+using Microsoft.EntityFrameworkCore;
+
+namespace FluentPaginator.ConsoleSample;
 
 public class Model
 {
-    [Key] public int Id { get; set; }
+    [Key]
+    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
 }
 
@@ -34,7 +36,7 @@ public class Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseInMemoryDatabase("DB");
+        optionsBuilder.UseInMemoryDatabase("db");
     }
 
     private void Seed()
@@ -47,7 +49,6 @@ public class Context : DbContext
         Models.AddRange(items);
         SaveChanges();
     }
-
     public DbSet<Model> Models { get; set; } = null!;
 }
 
@@ -55,15 +56,24 @@ public static class Program
 {
     public static void Main()
     {
-        using var context = new Context(new DbContextOptions<Context>());
+        using var context = new Context(new DbContextOptionsBuilder<Context>().Options);
         var data = context.Models.Paginate(new PaginationParameter(5, 4), x => x.Id);
-        Console.WriteLine($"Page {data.PageNumber}");
-        Console.WriteLine($"Items per page : {data.PageSize}");
-        Console.WriteLine($"Has next : {data.HasNext}");
+        Console.WriteLine($"Page {data.PageNumber}"); // Page 4
+        Console.WriteLine($"Items per page : {data.PageSize}"); // Items per page : 5
+        Console.WriteLine($"Has next : {data.HasNext}"); // Has next : False
+        Console.WriteLine($"Total number of items : {data.Total}"); // Total number of items : 20
         foreach (var model in data.Items)
         {
             Console.WriteLine($"{model.Id} - {model.Name}");
-        }
+        }// 16 - Item 15
+         // 17 - Item 16
+         // 18 - Item 17
+         // 19 - Item 18
+         // 20 - Item 19
     }
 }
 ```
+
+## Note
+
+The benchmarks results are available in the folder .benchmark_results

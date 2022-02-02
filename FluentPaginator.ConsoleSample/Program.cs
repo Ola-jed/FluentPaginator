@@ -23,7 +23,7 @@ public class Context : DbContext
     {
         optionsBuilder.UseInMemoryDatabase("db");
     }
-    
+
     private void Seed()
     {
         var items = new List<Model>();
@@ -41,14 +41,19 @@ public static class Program
 {
     public static void Main()
     {
-        using var context = new Context(new DbContextOptionsBuilder<Context>().EnableSensitiveDataLogging().Options);
+        using var context = new Context(new DbContextOptionsBuilder<Context>().Options);
         var data = context.Models.Paginate(new PaginationParameter(5, 4), x => x.Id);
-        Console.WriteLine($"Page {data.PageNumber}");
-        Console.WriteLine($"Items per page : {data.PageSize}");
-        Console.WriteLine($"Has next : {data.HasNext}");
+        Console.WriteLine($"Page {data.PageNumber}"); // Page 4
+        Console.WriteLine($"Items per page : {data.PageSize}"); // Items per page : 5
+        Console.WriteLine($"Has next : {data.HasNext}"); // Has next : False
+        Console.WriteLine($"Total number of items : {data.Total}"); // Total number of items : 20
         foreach (var model in data.Items)
         {
             Console.WriteLine($"{model.Id} - {model.Name}");
-        }
+        }// 16 - Item 15
+         // 17 - Item 16
+         // 18 - Item 17
+         // 19 - Item 18
+         // 20 - Item 19
     }
 }

@@ -11,7 +11,7 @@ public class QueryableUrlPaginatorExtensionsTest
     public void TestUrlPaginateWithoutQueryParameter()
     {
         using var context = TestContextBuilder.Build();
-        var paginationParam = new UrlPaginationParameter(5,1, "http://localhost/test");
+        var paginationParam = new UrlPaginationParameter(5, 1, "http://localhost/test");
         var pageResult = context.Models.AsQueryable().UrlPaginate(paginationParam, x => x.Id);
         Assert.Equal(1, pageResult.PageNumber);
         Assert.Equal(5, pageResult.PageSize);
@@ -20,12 +20,12 @@ public class QueryableUrlPaginatorExtensionsTest
         Assert.Equal("http://localhost/test?PageNumber=0&PageSize=5", pageResult.PreviousUrl);
         Assert.Equal("http://localhost/test?PageNumber=2&PageSize=5", pageResult.NextUrl);
     }
-    
+
     [Fact]
     public void TestUrlPaginateWithQueryParameter()
     {
         using var context = TestContextBuilder.Build();
-        var paginationParam = new UrlPaginationParameter(5,1, "http://localhost/test?search=test");
+        var paginationParam = new UrlPaginationParameter(5, 1, "http://localhost/test?search=test");
         var pageResult = context.Models.AsQueryable().UrlPaginate(paginationParam, x => x.Id);
         Assert.Equal(1, pageResult.PageNumber);
         Assert.Equal(5, pageResult.PageSize);
