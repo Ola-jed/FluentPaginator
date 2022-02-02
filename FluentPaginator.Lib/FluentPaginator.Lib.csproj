@@ -7,7 +7,7 @@
         <Title>A Fluent Paginator for .net</Title>
         <Description>A Package for IQueryable/IEnumerable Pagination</Description>
         <PackageProjectUrl>https://github.com/Ola-jed/FluentPaginator</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/Ola-jed/FluentPaginator/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageLicense>https://github.com/Ola-jed/FluentPaginator/blob/master/LICENSE</PackageLicense>
         <RepositoryUrl>https://github.com/Ola-jed/FluentPaginator</RepositoryUrl>
         <AssemblyVersion>2.0.0</AssemblyVersion>
         <version>2.0.0</version>
