@@ -41,7 +41,7 @@ public class Paginator<T> : IPaginator<T>
                 .Take(pageSize)
                 .ToList();
             var hasNext = _source.Count() - pageSize * pageNumber > 0;
-            return new Page<T>(items, pageNumber, pageSize, hasNext,total);
+            return new Page<T>(items, pageNumber, pageSize, hasNext, total);
         }
         else
         {

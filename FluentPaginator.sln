@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentPaginator.ConsoleSamp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentPaginator.Tests", "FluentPaginator.Tests\FluentPaginator.Tests.csproj", "{AE8DE7B2-0950-49FA-B46F-1A52CCAD7555}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentPaginator.Benchmarks", "FluentPaginator.Benchmarks\FluentPaginator.Benchmarks.csproj", "{76BFB0B9-DAAD-4E20-9B50-8A0ACA392F63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{AE8DE7B2-0950-49FA-B46F-1A52CCAD7555}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE8DE7B2-0950-49FA-B46F-1A52CCAD7555}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE8DE7B2-0950-49FA-B46F-1A52CCAD7555}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76BFB0B9-DAAD-4E20-9B50-8A0ACA392F63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76BFB0B9-DAAD-4E20-9B50-8A0ACA392F63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76BFB0B9-DAAD-4E20-9B50-8A0ACA392F63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76BFB0B9-DAAD-4E20-9B50-8A0ACA392F63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
