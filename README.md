@@ -1,5 +1,7 @@
 # FluentPaginator
 
+[![Coverage Status](https://coveralls.io/repos/github/Ola-jed/FluentPaginator/badge.svg?branch=dev)](https://coveralls.io/github/Ola-jed/FluentPaginator?branch=dev)
+
 FluentPaginator is an easy to use library to help pagination with `IQueryable` and `IEnumerable`
 
 ## Download
