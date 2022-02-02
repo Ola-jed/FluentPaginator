@@ -2,4 +2,4 @@
 using FluentPaginator.Benchmarks;
 
 var summary = BenchmarkRunner.Run<BenchmarkFluentPaginator>();
-Console.ReadKey();
+Console.WriteLine("Benchmarks ended");
