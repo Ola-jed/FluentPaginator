@@ -78,5 +78,3 @@ public static class Program
     }
 }
 ```
-
-## Other usages
