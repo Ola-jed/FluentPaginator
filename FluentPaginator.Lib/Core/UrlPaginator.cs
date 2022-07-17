@@ -14,6 +14,10 @@ namespace FluentPaginator.Lib.Core;
 /// <typeparam name="T">The type that will be in the pagination data</typeparam>
 public class UrlPaginator<T> : IUrlPaginator<T>
 {
+    private const char AmpersandSign = '&';
+    private const char QuerySign = '?';
+    private const char EqualsSign = '=';
+    
     private readonly IQueryable<T> _source;
 
     /// <summary>
@@ -60,22 +64,22 @@ public class UrlPaginator<T> : IUrlPaginator<T>
         var hasNext = _source.Count() - paginationParameter.PageSize * paginationParameter.PageNumber > 0;
         var previousPageBuilder = new StringBuilder(paginationParameter.BaseUrl);
         var pageNumberName = paginationParameter.PageNumberName ?? nameof(paginationParameter.PageNumber);
-        var urlSeparator = paginationParameter.BaseUrl.Contains('?') ? '&' : '?';
+        var urlSeparator = paginationParameter.BaseUrl.Contains(QuerySign) ? AmpersandSign : QuerySign;
         var pageSizeName = paginationParameter.PageSizeName ?? nameof(paginationParameter.PageSize);
         previousPageBuilder.Append(urlSeparator)
             .Append(pageNumberName)
-            .Append('=')
+            .Append(EqualsSign)
             .Append(paginationParameter.PageNumber - 1)
-            .Append('&')
+            .Append(AmpersandSign)
             .Append(pageSizeName)
-            .Append('=')
+            .Append(EqualsSign)
             .Append(paginationParameter.PageSize);
         var nextPageBuilder = new StringBuilder(paginationParameter.BaseUrl);
         nextPageBuilder.Append(urlSeparator)
             .Append(pageNumberName)
-            .Append('=')
+            .Append(EqualsSign)
             .Append(paginationParameter.PageNumber + 1)
-            .Append('&')
+            .Append(AmpersandSign)
             .Append(pageSizeName)
             .Append('=')
             .Append(paginationParameter.PageSize);
