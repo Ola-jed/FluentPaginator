@@ -18,5 +18,10 @@ jobs:
         run: dotnet build --configuration Release
         working-directory: .
       - name: Test
-        run: dotnet test
+        run: dotnet test FluentPaginator.Tests/FluentPaginator.Tests.csproj /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
         working-directory: .
+      - name: Publish coverage report to coveralls.io
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: FluentPaginator.Tests/TestResults/coverage.info 

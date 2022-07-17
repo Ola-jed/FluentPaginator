@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using FluentPaginator.Lib.Core;
-using FluentPaginator.Lib.Core.Interfaces;
 using FluentPaginator.Lib.Parameter;
 using FluentPaginator.Lib.Page;
 
@@ -18,13 +17,14 @@ public static class QueryableExtensions
     /// <param name="self">The IQueryable to paginate</param>
     /// <param name="paginationParameter">The pagination param</param>
     /// <param name="orderFunc">Function for ordering items</param>
+    /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
     /// <typeparam name="T">The type of the page data</typeparam>
     /// <typeparam name="TKey">The type of the parameter for ordering</typeparam>
     /// <returns>The paginated result</returns>
     public static Page<T> Paginate<T, TKey>(this IQueryable<T> self, PaginationParameter paginationParameter,
-        Func<T, TKey>? orderFunc = null)
+        Func<T, TKey>? orderFunc = null, PaginationOrder paginationOrder = PaginationOrder.Ascending)
     {
-        return new Paginator<T>(self).Paginate(paginationParameter, orderFunc);
+        return new Paginator<T>(self).Paginate(paginationParameter, orderFunc, paginationOrder);
     }
 
     /// <summary>
@@ -33,12 +33,13 @@ public static class QueryableExtensions
     /// <param name="self">The IQueryable to paginate</param>
     /// <param name="paginationParameter">The url pagination param</param>
     /// <param name="orderFunc">Function for ordering items</param>
+    /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
     /// <typeparam name="T">The type of the page data</typeparam>
     /// <typeparam name="TKey">The type of the parameter for ordering</typeparam>
     /// <returns>The paginated result</returns>
     public static UrlPage<T> UrlPaginate<T, TKey>(this IQueryable<T> self, UrlPaginationParameter paginationParameter,
-        Func<T, TKey>? orderFunc = null)
+        Func<T, TKey>? orderFunc = null, PaginationOrder paginationOrder = PaginationOrder.Ascending)
     {
-        return new UrlPaginator<T>(self).Paginate(paginationParameter, orderFunc);
+        return new UrlPaginator<T>(self).Paginate(paginationParameter, orderFunc, paginationOrder);
     }
 }

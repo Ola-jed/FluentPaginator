@@ -28,9 +28,11 @@ public class Paginator<T> : IPaginator<T>
     /// </summary>
     /// <param name="paginationParameter">The parameter for page size and the current page</param>
     /// <param name="orderFunc">Function for how the elements will be ordered</param>
+    /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
     /// <typeparam name="TKey">The type used for ordering</typeparam>
     /// <returns>A page containing the data</returns>
-    public Page<T> Paginate<TKey>(PaginationParameter paginationParameter, Func<T, TKey>? orderFunc = null)
+    public Page<T> Paginate<TKey>(PaginationParameter paginationParameter, Func<T, TKey>? orderFunc = null,
+        PaginationOrder paginationOrder = PaginationOrder.Ascending)
     {
         var total = _source.Count();
         if (orderFunc == null)
@@ -46,7 +48,14 @@ public class Paginator<T> : IPaginator<T>
         else
         {
             var (pageSize, pageNumber) = paginationParameter;
-            var items = _source.OrderBy(orderFunc)
+            var itemsOrderTempResult = paginationOrder switch
+            {
+                PaginationOrder.Ascending  => _source.OrderBy(orderFunc),
+                PaginationOrder.Descending => _source.OrderByDescending(orderFunc),
+                _                          => throw new ArgumentOutOfRangeException(nameof(paginationOrder), paginationOrder, null)
+            };
+            
+            var items = itemsOrderTempResult
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();

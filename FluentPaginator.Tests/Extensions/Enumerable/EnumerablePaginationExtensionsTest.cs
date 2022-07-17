@@ -4,15 +4,15 @@ using FluentPaginator.Lib.Parameter;
 using FluentPaginator.Tests.Setup;
 using Xunit;
 
-namespace FluentPaginator.Tests.Extensions;
+namespace FluentPaginator.Tests.Extensions.Enumerable;
 
-public class QueryablePaginatorExtensionsTest
+public class EnumerablePaginationExtensionsTest
 {
-    [Fact]
-    public void TestPaginatorOnIQueryableWithRemainingPages()
+     [Fact]
+    public void TestPaginatorOnIEnumerableWithRemainingPages()
     {
         using var context = TestContextBuilder.Build();
-        var pageResult = context.Models.AsQueryable().Paginate(new PaginationParameter(5, 2), model => model.Id);
+        var pageResult = context.Models.AsEnumerable().Paginate(new PaginationParameter(5, 2), model => model.Id);
         Assert.Equal(5, pageResult.Items.Count());
         Assert.True(pageResult.HasNext);
         Assert.Equal(5, pageResult.PageSize);
@@ -20,10 +20,10 @@ public class QueryablePaginatorExtensionsTest
     }
 
     [Fact]
-    public void TestPaginatorOnIQueryableWithNoRemainingPages()
+    public void TestPaginatorOnIEnumerableWithNoRemainingPages()
     {
         using var context = TestContextBuilder.Build();
-        var pageResult = context.Models.AsQueryable().Paginate(new PaginationParameter(5, 4), model => model.Id);
+        var pageResult = context.Models.AsEnumerable().Paginate(new PaginationParameter(5, 4), model => model.Id);
         Assert.Equal(5, pageResult.Items.Count());
         Assert.False(pageResult.HasNext);
         Assert.Equal(5, pageResult.PageSize);
@@ -31,10 +31,10 @@ public class QueryablePaginatorExtensionsTest
     }
 
     [Fact]
-    public void TestPaginatorOnIQueryableWithIncompletePage()
+    public void TestPaginatorOnIEnumerableWithIncompletePage()
     {
         using var context = TestContextBuilder.Build();
-        var pageResult = context.Models.AsQueryable().Paginate(new PaginationParameter(6, 4), model => model.Id);
+        var pageResult = context.Models.AsEnumerable().Paginate(new PaginationParameter(6, 4), model => model.Id);
         Assert.Equal(2, pageResult.Items.Count());
         Assert.False(pageResult.HasNext);
         Assert.Equal(6, pageResult.PageSize);
@@ -42,10 +42,10 @@ public class QueryablePaginatorExtensionsTest
     }
 
     [Fact]
-    public void TestPaginatorOnIQueryableWithEmptyPage()
+    public void TestPaginatorOnIEnumerableWithEmptyPage()
     {
         using var context = TestContextBuilder.Build();
-        var pageResult = context.Models.AsQueryable().Paginate(new PaginationParameter(5, 5), model => model.Id);
+        var pageResult = context.Models.AsEnumerable().Paginate(new PaginationParameter(5, 5), model => model.Id);
         Assert.Empty(pageResult.Items);
         Assert.False(pageResult.HasNext);
         Assert.Equal(5, pageResult.PageSize);
@@ -53,10 +53,10 @@ public class QueryablePaginatorExtensionsTest
     }
 
     [Fact]
-    public void TestPaginatorOnIQueryableWithoutOrdering()
+    public void TestPaginatorOnIEnumerableWithoutOrdering()
     {
         using var context = TestContextBuilder.Build();
-        var pageResult = context.Models.AsQueryable().Paginate<Model, object>(new PaginationParameter(5, 2));
+        var pageResult = context.Models.AsEnumerable().Paginate<Model, object>(new PaginationParameter(5, 2));
         Assert.Equal(5, pageResult.Items.Count());
         Assert.True(pageResult.HasNext);
         Assert.Equal(5, pageResult.PageSize);
