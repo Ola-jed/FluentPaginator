@@ -30,9 +30,11 @@ public class UrlPaginator<T> : IUrlPaginator<T>
     /// </summary>
     /// <param name="paginationParameter">The parameter for page size and the current page and the base url</param>
     /// <param name="orderFunc">Function for how the elements will be ordered</param>
+    /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
     /// <typeparam name="TKey">The type used for ordering</typeparam>
     /// <returns>A page containing the data</returns>
-    public UrlPage<T> Paginate<TKey>(UrlPaginationParameter paginationParameter, Func<T, TKey>? orderFunc = null)
+    public UrlPage<T> Paginate<TKey>(UrlPaginationParameter paginationParameter, Func<T, TKey>? orderFunc = null,
+        PaginationOrder paginationOrder = PaginationOrder.Ascending)
     {
         IEnumerable<T> items;
         if (orderFunc == null)
@@ -44,7 +46,13 @@ public class UrlPaginator<T> : IUrlPaginator<T>
         }
         else
         {
-            items = _source.OrderBy(orderFunc)
+            var itemsOrderTempResult = paginationOrder switch
+            {
+                PaginationOrder.Ascending => _source.OrderBy(orderFunc),
+                PaginationOrder.Descending => _source.OrderByDescending(orderFunc),
+                _ => throw new ArgumentOutOfRangeException(nameof(paginationOrder), paginationOrder, null)
+            };
+            items = itemsOrderTempResult
                 .Skip((paginationParameter.PageNumber - 1) * paginationParameter.PageSize)
                 .Take(paginationParameter.PageSize);
         }
