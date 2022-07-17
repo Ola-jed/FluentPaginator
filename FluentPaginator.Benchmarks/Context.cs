@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace FluentPaginator.Benchmarks;
@@ -16,13 +19,7 @@ public class Context : DbContext
 
     private void Seed()
     {
-        var items = new List<Model>();
-        for (var i = 0; i < 20; i++)
-        {
-            items.Add(new Model { Name = $"Item {i}" });
-        }
-
-        Models.AddRange(items);
+        Models.AddRange(Enumerable.Range(1, 20).Select(i => new Model { Id = i, Name = $"Item {i}" }));
         SaveChanges();
     }
 

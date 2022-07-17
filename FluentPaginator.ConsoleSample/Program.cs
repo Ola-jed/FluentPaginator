@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using FluentPaginator.Lib.Core;
 using FluentPaginator.Lib.Extensions;
 using FluentPaginator.Lib.Parameter;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ public class Model
 {
     [Key]
     public int Id { get; set; }
-    public string Name { get; set; } = string.Empty;
+    public string? Name { get; set; }
 }
 
 public class Context : DbContext
@@ -26,14 +27,10 @@ public class Context : DbContext
 
     private void Seed()
     {
-        var items = new List<Model>();
-        for (var i = 0; i < 20; i++)
-        {
-            items.Add(new Model { Name = $"Item {i}" });
-        }
-        Models.AddRange(items);
+        Models.AddRange(Enumerable.Range(1, 20).Select(i => new Model { Id = i, Name = $"Item {i}" }));
         SaveChanges();
     }
+
     public DbSet<Model> Models { get; set; } = null!;
 }
 
@@ -42,18 +39,25 @@ public static class Program
     public static void Main()
     {
         using var context = new Context(new DbContextOptionsBuilder<Context>().Options);
-        var data = context.Models.Paginate(new PaginationParameter(5, 4), x => x.Id);
-        Console.WriteLine($"Page {data.PageNumber}"); // Page 4
-        Console.WriteLine($"Items per page : {data.PageSize}"); // Items per page : 5
-        Console.WriteLine($"Has next : {data.HasNext}"); // Has next : False
-        Console.WriteLine($"Total number of items : {data.Total}"); // Total number of items : 20
-        foreach (var model in data.Items)
+        var page = context.Models.Paginate(new PaginationParameter(5, 4), x => x.Id); // Ordering items with their Id
+        Console.WriteLine($"Page {page.PageNumber}"); // Page 4
+        Console.WriteLine($"Items per page : {page.PageSize}"); // Items per page : 5
+        Console.WriteLine($"Has next : {page.HasNext}"); // Has next : False
+        Console.WriteLine($"Total number of items : {page.Total}"); // Total number of items : 20
+        foreach (var model in page.Items)
         {
-            Console.WriteLine($"{model.Id} - {model.Name}");
-        }// 16 - Item 15
-         // 17 - Item 16
-         // 18 - Item 17
-         // 19 - Item 18
-         // 20 - Item 19
+            Console.WriteLine($"{model.Id} - {model.Name}"); // Will show the 5 last models from 16 to 20
+        }
+
+        // You can also paginate using the descending order
+        var descendingOrderedPage = context.Models.Paginate(
+            new PaginationParameter(5, 1),
+            x => x.Id,
+            PaginationOrder.Descending
+        );
+        foreach (var model in descendingOrderedPage.Items)
+        {
+            Console.WriteLine($"{model.Id} - {model.Name}"); // Will output the 5 last models from 20 to 16
+        }
     }
 }
