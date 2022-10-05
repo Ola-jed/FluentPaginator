@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using FluentPaginator.Lib.Page;
 using FluentPaginator.Lib.Parameter;
 
@@ -18,6 +19,6 @@ public interface IPaginator<T>
     /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
     /// <typeparam name="TKey">The type used for ordering</typeparam>
     /// <returns>A page containing the data</returns>
-    public Page<T> Paginate<TKey>(PaginationParameter paginationParameter, Func<T, TKey>? orderFunc = null,
+    public Page<T> Paginate<TKey>(PaginationParameter paginationParameter, Expression<Func<T, TKey>>? orderFunc = null,
         PaginationOrder paginationOrder = PaginationOrder.Ascending);
 }

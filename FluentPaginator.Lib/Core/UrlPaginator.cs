@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using FluentPaginator.Lib.Core.Interfaces;
 using FluentPaginator.Lib.Page;
@@ -37,14 +38,16 @@ public class UrlPaginator<T> : IUrlPaginator<T>
     /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
     /// <typeparam name="TKey">The type used for ordering</typeparam>
     /// <returns>A page containing the data</returns>
-    public UrlPage<T> Paginate<TKey>(UrlPaginationParameter paginationParameter, Func<T, TKey>? orderFunc = null,
+    public UrlPage<T> Paginate<TKey>(UrlPaginationParameter paginationParameter, Expression<Func<T, TKey>>? orderFunc = null,
         PaginationOrder paginationOrder = PaginationOrder.Ascending)
     {
         IEnumerable<T> items;
+        var toSkip = (paginationParameter.PageNumber - 1) * paginationParameter.PageSize;
+        var count = _source.Count();
         if (orderFunc == null)
         {
             items = _source
-                .Skip((paginationParameter.PageNumber - 1) * paginationParameter.PageSize)
+                .Skip(toSkip)
                 .Take(paginationParameter.PageSize)
                 .ToList();
         }
@@ -57,11 +60,11 @@ public class UrlPaginator<T> : IUrlPaginator<T>
                 _ => throw new ArgumentOutOfRangeException(nameof(paginationOrder), paginationOrder, null)
             };
             items = itemsOrderTempResult
-                .Skip((paginationParameter.PageNumber - 1) * paginationParameter.PageSize)
+                .Skip(toSkip)
                 .Take(paginationParameter.PageSize);
         }
 
-        var hasNext = _source.Count() - paginationParameter.PageSize * paginationParameter.PageNumber > 0;
+        var hasNext = count - paginationParameter.PageSize * paginationParameter.PageNumber > 0;
         var previousPageBuilder = new StringBuilder(paginationParameter.BaseUrl);
         var pageNumberName = paginationParameter.PageNumberName ?? nameof(paginationParameter.PageNumber);
         var urlSeparator = paginationParameter.BaseUrl.Contains(QuerySign) ? AmpersandSign : QuerySign;
@@ -84,7 +87,7 @@ public class UrlPaginator<T> : IUrlPaginator<T>
             .Append('=')
             .Append(paginationParameter.PageSize);
         return new UrlPage<T>(items, paginationParameter.PageNumber, paginationParameter.PageSize, hasNext,
-            _source.Count(), paginationParameter.BaseUrl, previousPageBuilder.ToString(),
+            count, paginationParameter.BaseUrl, previousPageBuilder.ToString(),
             nextPageBuilder.ToString());
     }
 }

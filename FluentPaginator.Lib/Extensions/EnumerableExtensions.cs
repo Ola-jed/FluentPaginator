@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using FluentPaginator.Lib.Core;
 using FluentPaginator.Lib.Page;
 using FluentPaginator.Lib.Parameter;
@@ -24,7 +25,7 @@ public static class EnumerableExtensions
     /// <typeparam name="TKey">The type of the parameter for ordering</typeparam>
     /// <returns>The paginated result</returns>
     public static Page<T> Paginate<T, TKey>(this IEnumerable<T> self, PaginationParameter paginationParameter,
-        Func<T, TKey>? orderFunc = null, PaginationOrder paginationOrder = PaginationOrder.Ascending)
+        Expression<Func<T, TKey>>? orderFunc = null, PaginationOrder paginationOrder = PaginationOrder.Ascending)
     {
         return new Paginator<T>(self.AsQueryable()).Paginate(paginationParameter, orderFunc, paginationOrder);
     }
@@ -40,7 +41,7 @@ public static class EnumerableExtensions
     /// <typeparam name="TKey">The type of the parameter for ordering</typeparam>
     /// <returns>The paginated result</returns>
     public static UrlPage<T> UrlPaginate<T, TKey>(this IEnumerable<T> self, UrlPaginationParameter paginationParameter,
-        Func<T, TKey>? orderFunc = null, PaginationOrder paginationOrder = PaginationOrder.Ascending)
+        Expression<Func<T, TKey>>? orderFunc = null, PaginationOrder paginationOrder = PaginationOrder.Ascending)
     {
         return new UrlPaginator<T>(self.AsQueryable()).Paginate(paginationParameter, orderFunc, paginationOrder);
     }

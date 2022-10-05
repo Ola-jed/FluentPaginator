@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using FluentPaginator.Lib.Core.Interfaces;
 using FluentPaginator.Lib.Page;
 using FluentPaginator.Lib.Parameter;
@@ -31,23 +32,23 @@ public class Paginator<T> : IPaginator<T>
     /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
     /// <typeparam name="TKey">The type used for ordering</typeparam>
     /// <returns>A page containing the data</returns>
-    public Page<T> Paginate<TKey>(PaginationParameter paginationParameter, Func<T, TKey>? orderFunc = null,
+    public Page<T> Paginate<TKey>(PaginationParameter paginationParameter, Expression<Func<T, TKey>>? orderFunc = null,
         PaginationOrder paginationOrder = PaginationOrder.Ascending)
     {
-        var total = _source.Count();
+        var count = _source.Count();
+        var (pageSize, pageNumber) = paginationParameter;
+        var toSkip = (pageNumber - 1) * pageSize;
         if (orderFunc == null)
         {
-            var (pageSize, pageNumber) = paginationParameter;
             var items = _source
-                .Skip((pageNumber - 1) * pageSize)
+                .Skip(toSkip)
                 .Take(pageSize)
                 .ToList();
-            var hasNext = _source.Count() - pageSize * pageNumber > 0;
-            return new Page<T>(items, pageNumber, pageSize, hasNext, total);
+            var hasNext = count - pageSize * pageNumber > 0;
+            return new Page<T>(items, pageNumber, pageSize, hasNext, count);
         }
         else
         {
-            var (pageSize, pageNumber) = paginationParameter;
             var itemsOrderTempResult = paginationOrder switch
             {
                 PaginationOrder.Ascending  => _source.OrderBy(orderFunc),
@@ -59,8 +60,8 @@ public class Paginator<T> : IPaginator<T>
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
-            var hasNext = _source.Count() - pageSize * pageNumber > 0;
-            return new Page<T>(items, pageNumber, pageSize, hasNext, total);
+            var hasNext = count - pageSize * pageNumber > 0;
+            return new Page<T>(items, pageNumber, pageSize, hasNext, count);
         }
     }
 }
