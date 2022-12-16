@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <Authors>Ola-Jed</Authors>
         <Nullable>enable</Nullable>
         <Title>A Fluent Paginator for .net</Title>
