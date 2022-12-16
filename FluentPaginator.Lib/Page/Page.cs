@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace FluentPaginator.Lib.Page;
@@ -11,4 +13,39 @@ namespace FluentPaginator.Lib.Page;
 /// <param name="HasNext">If a next page exists</param>
 /// <param name="Total">The total number of items in the source data</param>
 /// <typeparam name="T">The Type of the data contained</typeparam>
-public record Page<T>(IEnumerable<T> Items, int PageNumber, int PageSize, bool HasNext, int Total);
+public record Page<T>(IEnumerable<T> Items, int PageNumber, int PageSize, bool HasNext, int Total): IEnumerable<T>
+{
+    public virtual bool Equals(Page<T>? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return Items.Equals(other.Items)
+               && PageNumber == other.PageNumber
+               && PageSize == other.PageSize
+               && HasNext == other.HasNext
+               && Total == other.Total;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Items, PageNumber, PageSize, HasNext, Total);
+    }
+
+    public IEnumerator<T> GetEnumerator()
+    {
+        return Items.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+}

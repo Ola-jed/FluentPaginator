@@ -10,6 +10,7 @@ public class Model
 {
     [Key]
     public int Id { get; set; }
+
     public string? Name { get; set; }
 }
 
@@ -39,15 +40,14 @@ public static class Program
     public static void Main()
     {
         using var context = new Context(new DbContextOptionsBuilder<Context>().Options);
-        var page = context.Models.Paginate(new PaginationParameter(5, 4), x => x.Id); // Ordering items with their Id
+        var page = context.Models.Paginate(new PaginationParameter(5, 4), x => x.Id);
         Console.WriteLine($"Page {page.PageNumber}"); // Page 4
         Console.WriteLine($"Items per page : {page.PageSize}"); // Items per page : 5
         Console.WriteLine($"Has next : {page.HasNext}"); // Has next : False
         Console.WriteLine($"Total number of items : {page.Total}"); // Total number of items : 20
-        foreach (var model in page.Items)
-        {
-            Console.WriteLine($"{model.Id} - {model.Name}"); // Will show the 5 last models from 16 to 20
-        }
+        // Will show the 5 last models from 16 to 20
+        page.ForEach(model => Console.WriteLine($"{model.Id} - {model.Name}"));
+        
 
         // You can also paginate using the descending order
         var descendingOrderedPage = context.Models.Paginate(
@@ -55,9 +55,7 @@ public static class Program
             x => x.Id,
             PaginationOrder.Descending
         );
-        foreach (var model in descendingOrderedPage.Items)
-        {
-            Console.WriteLine($"{model.Id} - {model.Name}"); // Will output the 5 last models from 20 to 16
-        }
+        // Will output the 5 last models from 20 to 16
+        descendingOrderedPage.ForEach(model => Console.WriteLine($"{model.Id} - {model.Name}"));
     }
 }
