@@ -8,10 +8,10 @@
         <PackageProjectUrl>https://github.com/Ola-jed/FluentPaginator</PackageProjectUrl>
         <PackageLicense>https://github.com/Ola-jed/FluentPaginator/blob/master/LICENSE</PackageLicense>
         <RepositoryUrl>https://github.com/Ola-jed/FluentPaginator</RepositoryUrl>
-        <AssemblyVersion>2.3.0</AssemblyVersion>
-        <version>2.3.0</version>
+        <AssemblyVersion>3.0.0</AssemblyVersion>
+        <version>3.0.0</version>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageVersion>2.3.0</PackageVersion>
+        <PackageVersion>3.0.0</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
