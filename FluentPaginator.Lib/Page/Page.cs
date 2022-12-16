@@ -27,9 +27,13 @@ public record Page<T>(IEnumerable<T> Items, int PageNumber, int PageSize, bool H
             return true;
         }
 
-        return Items.Equals(other.Items) && PageNumber == other.PageNumber && PageSize == other.PageSize && HasNext == other.HasNext && Total == other.Total;
+        return Items.Equals(other.Items)
+               && PageNumber == other.PageNumber
+               && PageSize == other.PageSize
+               && HasNext == other.HasNext
+               && Total == other.Total;
     }
-    
+
     public override int GetHashCode()
     {
         return HashCode.Combine(Items, PageNumber, PageSize, HasNext, Total);

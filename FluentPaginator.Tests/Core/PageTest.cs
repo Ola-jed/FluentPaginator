@@ -18,12 +18,4 @@ public class PageTest
         Assert.Equal(5, mappedPage.Total);
         Assert.Equal(new[] { 2, 4, 6, 8, 10 }, mappedPage.Items);
     }
-
-    [Fact]
-    public void TestEqualsPageWIthIdentityMappingFunction()
-    {
-        var page = new Page<int>(new[] { 1, 2, 3, 4, 5 }, 1, 5, false, 5);
-        var mappedPage = page.Map(x => x);
-        Assert.Equal(page, mappedPage);
-    }
 }
