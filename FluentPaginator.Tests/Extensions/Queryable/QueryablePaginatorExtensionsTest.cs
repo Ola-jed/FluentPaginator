@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using FluentPaginator.Lib.Extensions;
 using FluentPaginator.Lib.Parameter;
 using FluentPaginator.Tests.Setup;
@@ -13,6 +14,18 @@ public class QueryablePaginatorExtensionsTest
     {
         using var context = TestContextBuilder.Build();
         var pageResult = context.Models.AsQueryable().Paginate(new PaginationParameter(5, 2), model => model.Id);
+        Assert.Equal(5, pageResult.Items.Count());
+        Assert.True(pageResult.HasNext);
+        Assert.Equal(5, pageResult.PageSize);
+        Assert.Equal(2, pageResult.PageNumber);
+    }
+    
+    [Fact]
+    public async Task TestAsyncPaginationOnPaginator()
+    {
+        await using var context = TestContextBuilder.Build();
+        var pageResult = await context.Models.AsQueryable()
+            .AsyncPaginate(new PaginationParameter(5, 2), model => model.Id);
         Assert.Equal(5, pageResult.Items.Count());
         Assert.True(pageResult.HasNext);
         Assert.Equal(5, pageResult.PageSize);

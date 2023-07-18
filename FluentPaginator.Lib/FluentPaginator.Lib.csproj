@@ -4,17 +4,21 @@
         <Authors>Ola-Jed</Authors>
         <Nullable>enable</Nullable>
         <Title>A Fluent Paginator for .net</Title>
-        <Description>A Package for IQueryable/IEnumerable Pagination</Description>
+        <Description>A Package for IQueryable/IEnumerable Pagination, with support for Entity Framework</Description>
         <PackageProjectUrl>https://github.com/Ola-jed/FluentPaginator</PackageProjectUrl>
         <PackageLicense>https://github.com/Ola-jed/FluentPaginator/blob/master/LICENSE</PackageLicense>
         <RepositoryUrl>https://github.com/Ola-jed/FluentPaginator</RepositoryUrl>
-        <AssemblyVersion>4.0.0</AssemblyVersion>
-        <version>4.0.0</version>
+        <AssemblyVersion>5.0.0</AssemblyVersion>
+        <version>5.0.0</version>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageVersion>4.0.0</PackageVersion>
+        <PackageVersion>5.0.0</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9"/>
     </ItemGroup>
 </Project>
