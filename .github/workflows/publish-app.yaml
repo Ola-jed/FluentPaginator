@@ -13,7 +13,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 8.0.x
       - name: Install dependencies
         run: dotnet restore
       - name: Build
@@ -23,4 +23,4 @@ jobs:
         with:
           PROJECT_FILE_PATH: FluentPaginator.Lib/FluentPaginator.Lib.csproj
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-          VERSION_STATIC: 5.0.0
+          VERSION_STATIC: 6.0.0
