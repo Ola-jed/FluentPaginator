@@ -57,5 +57,11 @@ public static class Program
         );
         // Will output the 5 last models from 20 to 16
         descendingOrderedPage.ForEach(model => Console.WriteLine($"{model.Id} - {model.Name}"));
+        
+        // Cursor pagination
+        var cursorPage = context.Models.CursorPaginate(new CursorPaginationParameter(5), 10, x => x.Id);
+        Console.WriteLine($"Items per page : {cursorPage.PageSize}"); // Items per page : 5
+        Console.WriteLine($"Last : {cursorPage.Last!.Id}"); // Last : 15
+        Console.WriteLine($"Total number of items : {page.Total}"); // Total number of items : 20
     }
 }

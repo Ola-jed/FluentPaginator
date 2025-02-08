@@ -22,6 +22,12 @@ public class BenchmarkFluentPaginator
     }
 
     [Benchmark]
+    public CursorPage<Model> CursorPaginate()
+    {
+        return _context.Models.CursorPaginate(new CursorPaginationParameter(1), null, m => m.Id);
+    }
+
+    [Benchmark]
     public UrlPage<Model> UrlPaginate()
     {
         return _context.Models.UrlPaginate(new UrlPaginationParameter(1, 10, "http://localhost/models"), m => m.Id);
@@ -41,7 +47,7 @@ public class BenchmarkFluentPaginator
             new UrlPaginationParameter(1, 10, "http://localhost/models", "Page", "PerPage"),
             m => m.Id);
     }
-    
+
     [Benchmark]
     public UrlPage<Model> UrlPaginateWithPageNamesAndQueryParams()
     {
