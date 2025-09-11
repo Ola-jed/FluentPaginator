@@ -21,13 +21,15 @@ public static class QueryableExtensions
     /// <param name="paginationParameter">The pagination param</param>
     /// <param name="orderFunc">Function for ordering items</param>
     /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
+    /// <param name="countStrategy">The strategy for counting the number of items</param>
     /// <typeparam name="T">The type of the page data</typeparam>
     /// <typeparam name="TKey">The type of the parameter for ordering</typeparam>
     /// <returns>The paginated result</returns>
     public static Page<T> Paginate<T, TKey>(this IQueryable<T> self, PaginationParameter paginationParameter,
-        Expression<Func<T, TKey>>? orderFunc = null, PaginationOrder paginationOrder = PaginationOrder.Ascending)
+        Expression<Func<T, TKey>>? orderFunc = null, PaginationOrder paginationOrder = PaginationOrder.Ascending,
+        CountStrategy countStrategy = CountStrategy.Normal)
     {
-        return new Paginator<T>(self).Paginate(paginationParameter, orderFunc, paginationOrder);
+        return new Paginator<T>(self).Paginate(paginationParameter, orderFunc, paginationOrder, countStrategy);
     }
 
     /// <summary>
@@ -37,15 +39,17 @@ public static class QueryableExtensions
     /// <param name="paginationParameter">The pagination param</param>
     /// <param name="orderFunc">Function for ordering items</param>
     /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
+    /// <param name="countStrategy">The strategy for counting the number of items</param>
     /// <param name="cancellationToken">A token to cancel the operation if needed</param>
     /// <typeparam name="T">The type of the page data</typeparam>
     /// <typeparam name="TKey">The type of the parameter for ordering</typeparam>
     /// <returns>The paginated result</returns>
     public static Task<Page<T>> AsyncPaginate<T, TKey>(this IQueryable<T> self, PaginationParameter paginationParameter,
         Expression<Func<T, TKey>>? orderFunc = null, PaginationOrder paginationOrder = PaginationOrder.Ascending,
-        CancellationToken cancellationToken = default)
+        CountStrategy countStrategy = CountStrategy.Normal, CancellationToken cancellationToken = default)
     {
-        return new Paginator<T>(self).AsyncPaginate(paginationParameter, orderFunc, paginationOrder, cancellationToken);
+        return new Paginator<T>(self).AsyncPaginate(paginationParameter, orderFunc, paginationOrder, countStrategy,
+            cancellationToken);
     }
 
     /// <summary>
@@ -55,13 +59,15 @@ public static class QueryableExtensions
     /// <param name="paginationParameter">The url pagination param</param>
     /// <param name="orderFunc">Function for ordering items</param>
     /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
+    /// <param name="countStrategy">The strategy for counting the number of items</param>
     /// <typeparam name="T">The type of the page data</typeparam>
     /// <typeparam name="TKey">The type of the parameter for ordering</typeparam>
     /// <returns>The paginated result</returns>
     public static UrlPage<T> UrlPaginate<T, TKey>(this IQueryable<T> self, UrlPaginationParameter paginationParameter,
-        Expression<Func<T, TKey>>? orderFunc = null, PaginationOrder paginationOrder = PaginationOrder.Ascending)
+        Expression<Func<T, TKey>>? orderFunc = null, PaginationOrder paginationOrder = PaginationOrder.Ascending,
+        CountStrategy countStrategy = CountStrategy.Normal)
     {
-        return new UrlPaginator<T>(self).Paginate(paginationParameter, orderFunc, paginationOrder);
+        return new UrlPaginator<T>(self).Paginate(paginationParameter, orderFunc, paginationOrder, countStrategy);
     }
 
     /// <summary>
@@ -71,6 +77,7 @@ public static class QueryableExtensions
     /// <param name="paginationParameter">The url pagination param</param>
     /// <param name="orderFunc">Function for ordering items</param>
     /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
+    /// <param name="countStrategy">The strategy for counting the number of items</param>
     /// <param name="cancellationToken">A token to cancel the operation if needed</param>
     /// <typeparam name="T">The type of the page data</typeparam>
     /// <typeparam name="TKey">The type of the parameter for ordering</typeparam>
@@ -78,10 +85,11 @@ public static class QueryableExtensions
     public static Task<UrlPage<T>> AsyncUrlPaginate<T, TKey>(this IQueryable<T> self,
         UrlPaginationParameter paginationParameter,
         Expression<Func<T, TKey>>? orderFunc = null, PaginationOrder paginationOrder = PaginationOrder.Ascending,
+        CountStrategy countStrategy = CountStrategy.Normal,
         CancellationToken cancellationToken = default)
     {
         return new UrlPaginator<T>(self).AsyncPaginate(paginationParameter, orderFunc, paginationOrder,
-            cancellationToken);
+            countStrategy, cancellationToken);
     }
 
     /// <summary>
@@ -92,6 +100,7 @@ public static class QueryableExtensions
     /// <param name="firstKey">The starting item for the page</param>
     /// <param name="orderFunc">Function for how the elements will be ordered</param>
     /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
+    /// <param name="countStrategy">The strategy for counting the number of items</param>
     /// <typeparam name="T">The type of the page data</typeparam>
     /// <typeparam name="TKey">The type of the parameter for ordering</typeparam>
     /// <returns>The paginated result</returns>
@@ -100,11 +109,12 @@ public static class QueryableExtensions
         CursorPaginationParameter paginationParameter,
         TKey? firstKey,
         Expression<Func<T, TKey>> orderFunc,
-        PaginationOrder paginationOrder = PaginationOrder.Ascending
+        PaginationOrder paginationOrder = PaginationOrder.Ascending,
+        CountStrategy countStrategy = CountStrategy.Normal
     ) where TKey : struct, IComparable<TKey>
     {
         return new CursorPaginator<T>(self)
-            .Paginate(paginationParameter, firstKey, orderFunc, paginationOrder);
+            .Paginate(paginationParameter, firstKey, orderFunc, paginationOrder, countStrategy);
     }
 
     /// <summary>
@@ -115,6 +125,7 @@ public static class QueryableExtensions
     /// <param name="firstKey">The starting item for the page</param>
     /// <param name="orderFunc">Function for how the elements will be ordered</param>
     /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
+    /// <param name="countStrategy">The strategy for counting the number of items</param>
     /// <param name="cancellationToken">A token to cancel the operation if needed</param>
     /// <typeparam name="T">The type of the page data</typeparam>
     /// <typeparam name="TKey">The type of the parameter for ordering</typeparam>
@@ -125,10 +136,11 @@ public static class QueryableExtensions
         TKey? firstKey,
         Expression<Func<T, TKey>> orderFunc,
         PaginationOrder paginationOrder = PaginationOrder.Ascending,
+        CountStrategy countStrategy = CountStrategy.Normal,
         CancellationToken cancellationToken = default
     ) where TKey : struct, IComparable<TKey>
     {
         return new CursorPaginator<T>(self)
-            .AsyncPaginate(paginationParameter, firstKey, orderFunc, paginationOrder, cancellationToken);
+            .AsyncPaginate(paginationParameter, firstKey, orderFunc, paginationOrder, countStrategy, cancellationToken);
     }
 }

@@ -21,6 +21,7 @@ public static class EnumerableExtensions
     /// <param name="paginationParameter">The pagination param</param>
     /// <param name="orderFunc">Function for ordering items</param>
     /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
+    /// <param name="countStrategy">The strategy for counting the number of items</param>
     /// <typeparam name="T">The type of the page data</typeparam>
     /// <typeparam name="TKey">The type of the parameter for ordering</typeparam>
     /// <returns>The paginated result</returns>
@@ -28,10 +29,12 @@ public static class EnumerableExtensions
         this IEnumerable<T> self,
         PaginationParameter paginationParameter,
         Expression<Func<T, TKey>>? orderFunc = null,
-        PaginationOrder paginationOrder = PaginationOrder.Ascending
+        PaginationOrder paginationOrder = PaginationOrder.Ascending,
+        CountStrategy countStrategy = CountStrategy.Normal
     )
     {
-        return new Paginator<T>(self.AsQueryable()).Paginate(paginationParameter, orderFunc, paginationOrder);
+        return new Paginator<T>(self.AsQueryable()).Paginate(paginationParameter, orderFunc, paginationOrder,
+            countStrategy);
     }
 
     /// <summary>
@@ -41,6 +44,7 @@ public static class EnumerableExtensions
     /// <param name="paginationParameter">The url pagination param</param>
     /// <param name="orderFunc">Function for ordering items</param>
     /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
+    /// <param name="countStrategy">The strategy for counting the number of items</param>
     /// <typeparam name="T">The type of the page data</typeparam>
     /// <typeparam name="TKey">The type of the parameter for ordering</typeparam>
     /// <returns>The paginated result</returns>
@@ -48,10 +52,12 @@ public static class EnumerableExtensions
         this IEnumerable<T> self,
         UrlPaginationParameter paginationParameter,
         Expression<Func<T, TKey>>? orderFunc = null,
-        PaginationOrder paginationOrder = PaginationOrder.Ascending
+        PaginationOrder paginationOrder = PaginationOrder.Ascending,
+        CountStrategy countStrategy = CountStrategy.Normal
     )
     {
-        return new UrlPaginator<T>(self.AsQueryable()).Paginate(paginationParameter, orderFunc, paginationOrder);
+        return new UrlPaginator<T>(self.AsQueryable()).Paginate(paginationParameter, orderFunc, paginationOrder,
+            countStrategy);
     }
 
     /// <summary>
@@ -62,6 +68,7 @@ public static class EnumerableExtensions
     /// <param name="firstKey">The starting item for the page</param>
     /// <param name="orderFunc">Function for how the elements will be ordered</param>
     /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
+    /// <param name="countStrategy">The strategy for counting the number of items</param>
     /// <typeparam name="T">The type of the page data</typeparam>
     /// <typeparam name="TKey">The type of the parameter for ordering</typeparam>
     /// <returns>The paginated result</returns>
@@ -70,10 +77,11 @@ public static class EnumerableExtensions
         CursorPaginationParameter paginationParameter,
         TKey? firstKey,
         Expression<Func<T, TKey>> orderFunc,
-        PaginationOrder paginationOrder = PaginationOrder.Ascending
+        PaginationOrder paginationOrder = PaginationOrder.Ascending,
+        CountStrategy countStrategy = CountStrategy.Normal
     ) where TKey : struct, IComparable<TKey>
     {
         return new CursorPaginator<T>(self.AsQueryable()).Paginate(paginationParameter, firstKey, orderFunc,
-            paginationOrder);
+            paginationOrder, countStrategy);
     }
 }

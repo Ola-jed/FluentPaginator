@@ -31,10 +31,17 @@ public class CursorPaginator<T> : ICursorPaginator<T>
         CursorPaginationParameter paginationParameter,
         TKey? firstKey,
         Expression<Func<T, TKey>> orderFunc,
-        PaginationOrder paginationOrder = PaginationOrder.Ascending
+        PaginationOrder paginationOrder = PaginationOrder.Ascending,
+        CountStrategy countStrategy = CountStrategy.Normal
     ) where TKey : struct, IComparable<TKey>
     {
-        var count = _source.Count();
+        var count = countStrategy switch
+        {
+            CountStrategy.Normal => _source.Count(),
+            CountStrategy.NoCount => 0,
+            _ => throw new ArgumentOutOfRangeException(nameof(countStrategy), countStrategy, null)
+        };
+        
         Expression<Func<T, bool>> filterExpression = x => true;
         if (firstKey.HasValue)
         {
@@ -64,10 +71,17 @@ public class CursorPaginator<T> : ICursorPaginator<T>
         TKey? firstKey,
         Expression<Func<T, TKey>> orderFunc,
         PaginationOrder paginationOrder = PaginationOrder.Ascending,
+        CountStrategy countStrategy = CountStrategy.Normal,
         CancellationToken cancellationToken = default
     ) where TKey : struct, IComparable<TKey>
     {
-        var count = await _source.CountAsync(cancellationToken);
+        var count = countStrategy switch
+        {
+            CountStrategy.Normal => await _source.CountAsync(cancellationToken),
+            CountStrategy.NoCount => 0,
+            _ => throw new ArgumentOutOfRangeException(nameof(countStrategy), countStrategy, null)
+        };
+        
         Expression<Func<T, bool>> filterExpression = x => true;
         if (firstKey.HasValue)
         {

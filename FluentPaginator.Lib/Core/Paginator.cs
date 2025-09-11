@@ -29,9 +29,15 @@ public class Paginator<T> : IPaginator<T>
     }
 
     public Page<T> Paginate<TKey>(PaginationParameter paginationParameter, Expression<Func<T, TKey>>? orderFunc = null,
-        PaginationOrder paginationOrder = PaginationOrder.Ascending)
+        PaginationOrder paginationOrder = PaginationOrder.Ascending, CountStrategy countStrategy = CountStrategy.Normal)
     {
-        var count = _source.Count();
+        var count = countStrategy switch
+        {
+            CountStrategy.Normal => _source.Count(),
+            CountStrategy.NoCount => 0,
+            _ => throw new ArgumentOutOfRangeException(nameof(countStrategy), countStrategy, null)
+        };
+
         var (pageSize, pageNumber) = paginationParameter;
         var toSkip = (pageNumber - 1) * pageSize;
         IEnumerable<T> items;
@@ -40,7 +46,7 @@ public class Paginator<T> : IPaginator<T>
         {
             items = _source
                 .Skip(toSkip)
-                .Take(pageSize)
+                .Take(pageSize + 1)
                 .ToList();
         }
         else
@@ -54,19 +60,27 @@ public class Paginator<T> : IPaginator<T>
 
             items = itemsOrderTempResult
                 .Skip(toSkip)
-                .Take(pageSize)
+                .Take(pageSize + 1)
                 .ToList();
         }
 
-        var hasNext = count - pageSize * pageNumber > 0;
-        return new Page<T>(items, pageNumber, pageSize, hasNext, count);
+        var hasNext = items.Count() > pageSize;
+        return new Page<T>(items.Take(pageSize), pageNumber, pageSize, hasNext, count);
     }
 
     public async Task<Page<T>> AsyncPaginate<TKey>(PaginationParameter paginationParameter,
         Expression<Func<T, TKey>>? orderFunc = null,
-        PaginationOrder paginationOrder = PaginationOrder.Ascending, CancellationToken cancellationToken = default)
+        PaginationOrder paginationOrder = PaginationOrder.Ascending,
+        CountStrategy countStrategy = CountStrategy.Normal,
+        CancellationToken cancellationToken = default)
     {
-        var count = await _source.CountAsync(cancellationToken);
+        var count = countStrategy switch
+        {
+            CountStrategy.Normal => await _source.CountAsync(cancellationToken),
+            CountStrategy.NoCount => 0,
+            _ => throw new ArgumentOutOfRangeException(nameof(countStrategy), countStrategy, null)
+        };
+        
         var (pageSize, pageNumber) = paginationParameter;
         var toSkip = (pageNumber - 1) * pageSize;
         IEnumerable<T> items;
@@ -75,7 +89,7 @@ public class Paginator<T> : IPaginator<T>
         {
             items = await _source
                 .Skip(toSkip)
-                .Take(pageSize)
+                .Take(pageSize + 1)
                 .ToListAsync(cancellationToken);
         }
         else
@@ -89,11 +103,11 @@ public class Paginator<T> : IPaginator<T>
 
             items = await itemsOrderTempResult
                 .Skip(toSkip)
-                .Take(pageSize)
+                .Take(pageSize + 1)
                 .ToListAsync(cancellationToken);
         }
 
-        var hasNext = count - pageSize * pageNumber > 0;
-        return new Page<T>(items, pageNumber, pageSize, hasNext, count);
+        var hasNext = items.Count() > pageSize;
+        return new Page<T>(items.Take(pageSize), pageNumber, pageSize, hasNext, count);
     }
 }

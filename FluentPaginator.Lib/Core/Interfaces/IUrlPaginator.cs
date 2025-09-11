@@ -19,11 +19,15 @@ public interface IUrlPaginator<T>
     /// <param name="paginationParameter">The parameter for page size and the current page and the base url</param>
     /// <param name="orderFunc">Function for how the elements will be ordered</param>
     /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
+    /// <param name="countStrategy">The strategy for counting the number of items</param>
     /// <typeparam name="TKey">The type used for ordering</typeparam>
     /// <returns>A page containing the data</returns>
-    public UrlPage<T> Paginate<TKey>(UrlPaginationParameter paginationParameter,
+    public UrlPage<T> Paginate<TKey>(
+        UrlPaginationParameter paginationParameter,
         Expression<Func<T, TKey>>? orderFunc = null,
-        PaginationOrder paginationOrder = PaginationOrder.Ascending);
+        PaginationOrder paginationOrder = PaginationOrder.Ascending,
+        CountStrategy countStrategy = CountStrategy.Normal
+    );
 
     /// <summary>
     ///     Paginate a source of data with the urls asynchronously, using Entity Framework extensions
@@ -31,10 +35,15 @@ public interface IUrlPaginator<T>
     /// <param name="paginationParameter">The parameter for page size and the current page and the base url</param>
     /// <param name="orderFunc">Function for how the elements will be ordered</param>
     /// <param name="paginationOrder">The order for ordering the items before paginating (Asc or Desc)</param>
+    /// <param name="countStrategy">The strategy for counting the number of items</param>
     /// <param name="cancellationToken">A token to cancel the operation if needed</param>
     /// <typeparam name="TKey">The type used for ordering</typeparam>
     /// <returns>A page containing the data</returns>
-    public Task<UrlPage<T>> AsyncPaginate<TKey>(UrlPaginationParameter paginationParameter,
+    public Task<UrlPage<T>> AsyncPaginate<TKey>(
+        UrlPaginationParameter paginationParameter,
         Expression<Func<T, TKey>>? orderFunc = null,
-        PaginationOrder paginationOrder = PaginationOrder.Ascending, CancellationToken cancellationToken = default);
+        PaginationOrder paginationOrder = PaginationOrder.Ascending,
+        CountStrategy countStrategy = CountStrategy.Normal,
+        CancellationToken cancellationToken = default
+    );
 }
