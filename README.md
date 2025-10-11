@@ -133,5 +133,3 @@ var page = query.Paginate(new PaginationParameter(5, 1), countStrategy: CountStr
 ## License
 
 FluentPaginator is licensed under the [MIT License](LICENSE).
-
----
